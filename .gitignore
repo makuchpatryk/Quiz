@@ -1,6 +1,9 @@
 # ignore all logs
 *.log
+.gitignore
+node_modules
 package.json
+package-lock.json
 db.sqlite3
 manage.py
 __pycache__
