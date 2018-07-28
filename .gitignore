@@ -1,0 +1,8 @@
+# ignore all logs
+*.log
+node_modules
+db.sqlite3
+manage.py
+__pycache__
+.babelrc
+migrations
