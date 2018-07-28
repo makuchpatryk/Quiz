@@ -1,6 +1,28 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.views import generic
+from .models import Question
 
-def quiz_index(request):
-	return render(request, 'quiz/index.html')
-# Create your views here.
+
+class Index(generic.ListView):
+    title = "Index"
+    template = 'quiz/index.html'
+
+    def get(self, request):
+        context = {}
+
+        return render(request, self.template, context)
+
+
+class Questions(generic.ListView):
+    title = "Questions"
+    template = 'quiz/questions.html'
+
+    def get(self, request):
+        questions = list(Question.objects.values('pk', 'question_text'))
+
+        context = {
+            'question_text': self.title,
+            'props': questions,
+        }
+
+        return render(request, self.template, context)
