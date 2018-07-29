@@ -1,12 +1,15 @@
 {% load render_bundle from webpack_loader %}
 <!DOCTYPE html>
 <html>
- <head>
- <meta charset="UTF-8">
- <title>Example</title>
- </head>
- <body>
- <div id="root"></div>
- {% render_bundle 'main' %}
- </body>
+<head>
+	<meta charset="UTF-8">
+	<title>Example</title>
+</head>
+<body>
+	<div id="root"></div>
+	<script>
+	window.props = {{ props|safe }};
+	</script>
+	{% render_bundle 'main' %}
+</body>
 </html>

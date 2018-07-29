@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views import generic
-from .models import Question
+from .models import Question, Choice
+from .serializers import QuestionSerializer
+import json
 
 
 class Index(generic.ListView):
@@ -18,11 +20,14 @@ class Questions(generic.ListView):
     template = 'quiz/questions.html'
 
     def get(self, request):
-        questions = list(Question.objects.values('pk', 'question_text'))
+        questions = Question.objects.all()
+        tmp = QuestionSerializer(
+            questions, many=True
+            )
 
         context = {
             'question_text': self.title,
-            'props': questions,
+            'props': json.dumps(tmp.data),
         }
 
         return render(request, self.template, context)
