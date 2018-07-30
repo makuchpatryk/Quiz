@@ -2,7 +2,7 @@
 
 Technology using:
   Django,
-  PostgreSql,
+  PostgreSQL,
   React,
   Webpack,
   Rest Framework,
