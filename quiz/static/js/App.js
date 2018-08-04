@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import update from 'react-addons-update';
-import quizQuestions from './api/quizQuestions';
 import Quiz from './components/Quiz';
 import Result from './components/Result';
 import css from './App.css';
@@ -12,6 +11,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+    this.quizQuestions = window.props;
 
     this.state = {
       counter: 0,
@@ -20,9 +20,8 @@ class App extends Component {
       answerOptions: [],
       answer: '',
       answersCount: {
-        Stark: 0,
-        Lannister: 0,
-        Targaryen: 0
+        Correct: 0,
+        Wrong: 0
       },
       result: ''
     };
@@ -31,10 +30,10 @@ class App extends Component {
   }
 
   componentWillMount() {
-    debugger
-    const shuffledAnswerOptions = quizQuestions.map((question) => this.shuffleArray(question.answers));
+
+    const shuffledAnswerOptions = this.quizQuestions.map((question) => this.shuffleArray(question.choices));
     this.setState({
-      question: quizQuestions[0].question,
+      question: this.quizQuestions[0].question_text,
       answerOptions: shuffledAnswerOptions[0]
     });
   }
@@ -61,7 +60,7 @@ class App extends Component {
   handleAnswerSelected(event) {
     this.setUserAnswer(event.currentTarget.value);
 
-    if (this.state.questionId < quizQuestions.length) {
+    if (this.state.questionId < this.quizQuestions.length) {
       setTimeout(() => this.setNextQuestion(), 300);
     } else {
       setTimeout(() => this.setResults(this.getResults()), 300);
@@ -69,9 +68,9 @@ class App extends Component {
   }
 
   setUserAnswer(answer) {
-    const updatedAnswersCount = update(this.state.answersCount, {
-      [answer]: {$apply: (currentValue) => currentValue + 1}
-    });
+      const updatedAnswersCount = update(this.state.answersCount, {
+        [answer]: {$apply: (currentValue) => currentValue + 1}
+      });
 
     this.setState({
       answersCount: updatedAnswersCount,
@@ -86,27 +85,20 @@ class App extends Component {
     this.setState({
       counter: counter,
       questionId: questionId,
-      question: quizQuestions[counter].question,
-      answerOptions: quizQuestions[counter].answers,
+      question: this.quizQuestions[counter].question_text,
+      answerOptions: this.quizQuestions[counter].choices,
       answer: ''
     });
   }
 
   getResults() {
     const answersCount = this.state.answersCount;
-    const answersCountKeys = Object.keys(answersCount);
-    const answersCountValues = answersCountKeys.map((key) => answersCount[key]);
-    const maxAnswerCount = Math.max.apply(null, answersCountValues);
-
-    return answersCountKeys.filter((key) => answersCount[key] === maxAnswerCount);
+    return answersCount;
   }
 
   setResults(result) {
-    if (result.length === 1) {
-      this.setState({ result: result[0] });
-    } else {
-      this.setState({ result: 'Undetermined' });
-    }
+      this.setState({ result: "finish" });
+      this.setState({ correctCnt: result["Correct"], wrongCnt: result["Wrong"] });
   }
 
   renderQuiz() {
@@ -116,20 +108,20 @@ class App extends Component {
       answerOptions={this.state.answerOptions}
       questionId={this.state.questionId}
       question={this.state.question}
-      questionTotal={quizQuestions.length}
+      questionTotal={this.quizQuestions.length}
       onAnswerSelected={this.handleAnswerSelected}
       />
       );
-  }
+    }
 
-  renderResult() {
-    return (
-      <Result quizResult={this.state.result} />
+    renderResult() {
+      return (
+      <Result Correct={this.state.correctCnt} Wrong={this.state.wrongCnt} />
       );
-  }
+    }
 
-  render() {
-    return (
+    render() {
+      return (
       <div className="App">
       <div className="App-header">
 
@@ -141,8 +133,8 @@ class App extends Component {
 
 
 
+    }
+
   }
 
-}
-
-export default App;
+  export default App;

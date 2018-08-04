@@ -14,14 +14,16 @@ function Result(props) {
 		transitionAppearTimeout={500}
 		>
 		<div>
-		You prefer <strong>{props.quizResult}</strong>!
+		You got <strong>{props.Correct}</strong> Correct answers
+		and <strong>{props.Wrong}</strong> Wrongs.
 		</div>
 		</ReactCSSTransitionGroup>
 		);
 }
 
 Result.propTypes = {
-	quizResult: PropTypes.string.isRequired,
+	Correct: PropTypes.string.isRequired,
+	Wrong: PropTypes.string.isRequired,
 };
 
 export default Result;

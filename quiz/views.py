@@ -10,7 +10,15 @@ class Index(generic.ListView):
     template = 'quiz/index.html'
 
     def get(self, request):
-        context = {}
+        questions = Question.objects.all()
+        tmp = QuestionSerializer(
+            questions, many=True
+            )
+
+        context = {
+            'question_text': self.title,
+            'props': json.dumps(tmp.data),
+        }
 
         return render(request, self.template, context)
 

@@ -10,11 +10,21 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 function Quiz(props) {
  
 	function renderAnswerOptions(key) {
+
+		if (key.correct)
+		{
+			var answer_type = "Correct";
+		}
+		else
+		{
+			var answer_type = "Wrong";
+		}
+
 		return (
 			<AnswerOption
-				key={key.content}
-				answerContent={key.content}
-				answerType={key.type}
+				key={key.choice_text}
+				answerContent={key.choice_text}
+				answerType={answer_type}
 				answer={props.answer}
 				questionId={props.questionId}
 				onAnswerSelected={props.onAnswerSelected}
