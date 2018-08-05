@@ -21,21 +21,3 @@ class Index(generic.ListView):
         }
 
         return render(request, self.template, context)
-
-
-class Questions(generic.ListView):
-    title = "Questions"
-    template = 'quiz/questions.html'
-
-    def get(self, request):
-        questions = Question.objects.all()
-        tmp = QuestionSerializer(
-            questions, many=True
-            )
-
-        context = {
-            'question_text': self.title,
-            'props': json.dumps(tmp.data),
-        }
-
-        return render(request, self.template, context)
