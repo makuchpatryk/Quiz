@@ -8,8 +8,15 @@
 <body>
 	<div id="root"></div>
 	<script>
-	window.props = {{ props|safe }};
+		window.props = {{ props|safe }};
 	</script>
 	{% render_bundle 'main' %}
+	<script>
+	debugger
+		document._scd['routing'] = {
+			'quiz': "{% url "api:questions-list" %}",
+		}
+		debugger
+	</script>
 </body>
 </html>

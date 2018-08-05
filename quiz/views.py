@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import generic
 from .models import Question, Choice
 from .serializers import QuestionSerializer
+from django.core.urlresolvers import reverse
 import json
 
 
