@@ -11,7 +11,8 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.quizQuestions = window.props;
+
+    this.quizQuestions = [];
 
     this.state = {
       counter: 0,
@@ -28,14 +29,23 @@ class App extends Component {
 
     this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
   }
+  componentDidMount() {
+    fetch(document._scd['routing']['api:questions'])
+    .then(res => res.json())
+    .then(
+      (result) => {
+        this.quizQuestions = result;
+        const shuffledAnswerOptions = this.quizQuestions.map((question) => this.shuffleArray(question.choices));
+        this.setState({
+          question: this.quizQuestions[0].question_text,
+          answerOptions: shuffledAnswerOptions[0]
+        });
+      },
+      )
 
+  }
   componentWillMount() {
 
-    const shuffledAnswerOptions = this.quizQuestions.map((question) => this.shuffleArray(question.choices));
-    this.setState({
-      question: this.quizQuestions[0].question_text,
-      answerOptions: shuffledAnswerOptions[0]
-    });
   }
 
   shuffleArray(array) {
@@ -68,9 +78,9 @@ class App extends Component {
   }
 
   setUserAnswer(answer) {
-      const updatedAnswersCount = update(this.state.answersCount, {
-        [answer]: {$apply: (currentValue) => currentValue + 1}
-      });
+    const updatedAnswersCount = update(this.state.answersCount, {
+      [answer]: {$apply: (currentValue) => currentValue + 1}
+    });
 
     this.setState({
       answersCount: updatedAnswersCount,
@@ -97,8 +107,8 @@ class App extends Component {
   }
 
   setResults(result) {
-      this.setState({ result: "finish" });
-      this.setState({ correctCnt: result["Correct"], wrongCnt: result["Wrong"] });
+    this.setState({ result: "finish" });
+    this.setState({ correctCnt: result["Correct"], wrongCnt: result["Wrong"] });
   }
 
   renderQuiz() {

@@ -1,0 +1,19 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+	<script type="text/javascript">
+		document._scd = {};
+		document._scd['routing'] = {
+			'api:questions': "{% url "api:questions-list" %}",
+		}
+	</script>
+	{% block content %}
+	{% endblock %}
+</body>
+</html>
