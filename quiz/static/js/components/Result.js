@@ -8,10 +8,10 @@ function Result(props) {
 		className="container result"
 		component ="div"
 		transitionName="fade"
-		transitionEnterTimeout={800}
-		transitionLeaveTimeout={500}
-		transitionAppear
-		transitionAppearTimeout={500}
+		transitionEnter={false}
+      	transitionLeave={false}
+		transitionAppear={true}
+      	transitionAppearTimeout={500}
 		>
 		<div>
 		You got <strong>{props.Correct}</strong> Correct answers
@@ -22,8 +22,8 @@ function Result(props) {
 }
 
 Result.propTypes = {
-	Correct: PropTypes.string.isRequired,
-	Wrong: PropTypes.string.isRequired,
+	Correct: PropTypes.number.isRequired,
+	Wrong: PropTypes.number.isRequired,
 };
 
 export default Result;

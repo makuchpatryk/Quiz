@@ -29,6 +29,7 @@ class App extends Component {
 
     this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
   }
+
   componentDidMount() {
     fetch(document._scd['routing']['api:questions'])
     .then(res => res.json())
@@ -42,9 +43,6 @@ class App extends Component {
         });
       },
       )
-
-  }
-  componentWillMount() {
 
   }
 
@@ -116,6 +114,7 @@ class App extends Component {
       <Quiz
       answer={this.state.answer}
       answerOptions={this.state.answerOptions}
+      counter={this.state.counter}
       questionId={this.state.questionId}
       question={this.state.question}
       questionTotal={this.quizQuestions.length}
@@ -125,9 +124,12 @@ class App extends Component {
     }
 
     renderResult() {
-      return (
-      <Result Correct={this.state.correctCnt} Wrong={this.state.wrongCnt} />
-      );
+      if(this.state.correctCnt != null || this.state.wrongCnt != null )
+      {
+        return (
+        <Result Correct={this.state.correctCnt} Wrong={this.state.wrongCnt} />
+        );
+      }
     }
 
     render() {
