@@ -1,5 +1,5 @@
 # ignore all logs
-logs
+logs/
 *.log
 node_modules
 db.sqlite3
