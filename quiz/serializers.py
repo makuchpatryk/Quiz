@@ -12,7 +12,9 @@ class ChoicesSerializer(serializers.Serializer):
 class QuestionSerializer(serializers.Serializer):
     pk = serializers.ReadOnlyField()
     question_text = serializers.ReadOnlyField()
-    pub_date = serializers.DateTimeField()
+    hint = serializers.ReadOnlyField()
+    image = serializers.FileField(
+        max_length=None, allow_empty_file=False)
     choices = serializers.SerializerMethodField()
 
     def get_choices(self, obj):

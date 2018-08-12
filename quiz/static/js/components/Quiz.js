@@ -8,7 +8,6 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 
 function Quiz(props) {
-
 	function renderAnswerOptions(key) {
 
 		if (key.correct)
@@ -48,7 +47,7 @@ function Quiz(props) {
 		counter={props.questionId}
 		total={props.questionTotal}
 		/>
-		<Question content={props.question} />
+		<Question content={props.question.question_text} />
 		<ul className="answerOptions">
 		{props.answerOptions.map(renderAnswerOptions)}
 		</ul>
@@ -78,7 +77,7 @@ Quiz.propTypes = {
 	answer: PropTypes.string.isRequired,
 	answerOptions: PropTypes.array.isRequired,
 	counter: PropTypes.number.isRequired,
-	question: PropTypes.string.isRequired,
+	question: PropTypes.object.isRequired,
 	questionId: PropTypes.number.isRequired,
 	questionTotal: PropTypes.number.isRequired,
 	onAnswerSelected: PropTypes.func

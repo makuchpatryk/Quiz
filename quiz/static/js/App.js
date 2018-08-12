@@ -17,7 +17,7 @@ class App extends Component {
     this.state = {
       counter: 0,
       questionId: 1,
-      question: '',
+      question: {},
       answerOptions: [],
       answer: '',
       answersCount: {
@@ -38,12 +38,11 @@ class App extends Component {
         this.quizQuestions = result;
         const shuffledAnswerOptions = this.quizQuestions.map((question) => this.shuffleArray(question.choices));
         this.setState({
-          question: this.quizQuestions[0].question_text,
+          question: this.quizQuestions[0],
           answerOptions: shuffledAnswerOptions[0]
         });
       },
       )
-
   }
 
   shuffleArray(array) {
@@ -93,7 +92,7 @@ class App extends Component {
     this.setState({
       counter: counter,
       questionId: questionId,
-      question: this.quizQuestions[counter].question_text,
+      question: this.quizQuestions[counter],
       answerOptions: this.quizQuestions[counter].choices,
       answer: ''
     });

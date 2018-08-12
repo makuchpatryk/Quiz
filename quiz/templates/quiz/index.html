@@ -4,9 +4,6 @@
 {% block title %}Test{% endblock %}
 {% block content %}
 <div id="root"></div>
-<script>
-	window.props = {{ props|safe }};
-</script>
 {% render_bundle 'main' %}
 
 {% endblock %}
