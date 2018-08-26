@@ -18,15 +18,11 @@ class Test(models.Model):
     was_published_recently.short_description = 'Published recently?'
 
 
-def get_image_path(instance, filename):
-    return os.path.join('photos', str(instance.id), filename)
-
-
 class Question(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     question_text = models.CharField(max_length=200)
     hint = models.CharField(max_length=200)
-    image = models.ImageField(upload_to=get_image_path, blank=True, null=True)
+    image = models.ImageField(upload_to='uploads/', blank=True, null=True)
 
     def __str__(self):
         return self.question_text

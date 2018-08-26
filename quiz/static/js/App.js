@@ -35,6 +35,7 @@ class App extends Component {
     .then(res => res.json())
     .then(
       (result) => {
+
         this.quizQuestions = result;
         const shuffledAnswerOptions = this.quizQuestions.map((question) => this.shuffleArray(question.choices));
         this.setState({

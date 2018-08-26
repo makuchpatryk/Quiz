@@ -13,8 +13,7 @@ class QuestionSerializer(serializers.Serializer):
     pk = serializers.ReadOnlyField()
     question_text = serializers.ReadOnlyField()
     hint = serializers.ReadOnlyField()
-    image = serializers.FileField(
-        max_length=None, allow_empty_file=False)
+    image = serializers.ImageField(use_url=True, required=False)
     choices = serializers.SerializerMethodField()
 
     def get_choices(self, obj):

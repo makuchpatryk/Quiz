@@ -31,7 +31,6 @@ function Quiz(props) {
 			);
 
 	}
-
 	return (
 		<ReactCSSTransitionGroup
 		className="container"
@@ -47,7 +46,7 @@ function Quiz(props) {
 		counter={props.questionId}
 		total={props.questionTotal}
 		/>
-		<Question content={props.question.question_text} />
+		<Question text={props.question.question_text} image={props.question.image} hint={props.question.hint} />
 		<ul className="answerOptions">
 		{props.answerOptions.map(renderAnswerOptions)}
 		</ul>
