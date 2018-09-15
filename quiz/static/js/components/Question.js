@@ -10,9 +10,14 @@ class Question extends Component {
 	}
 	handleClick(event) {
 		const currentState = this.state.isButtonActive;
-        this.setState({ isButtonActive: !currentState });
+		this.setState({ isButtonActive: !currentState });
+	}
+	limitTimeOut() {
+		setTimeout(() => this.props.onAnswerSelected('Wrong'), 1000);
 	}
 	render() {
+
+		this.limitTimeOut();
 		return (
 			<div>
 			<img src={this.props.image} />
@@ -29,7 +34,8 @@ class Question extends Component {
 Question.propTypes = {
 	text: PropTypes.string,
 	image: PropTypes.string,
-	hint: PropTypes.string
+	hint: PropTypes.string,
+	OnAnswerSelected: PropTypes.func
 };
 
 export default Question;

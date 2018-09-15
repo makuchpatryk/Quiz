@@ -12,42 +12,43 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.quizQuestions = [];
+      this.quizQuestions = [];
 
-    this.state = {
-      counter: 0,
-      questionId: 1,
-      question: {},
-      answerOptions: [],
-      answer: '',
-      answersCount: {
-        Correct: 0,
-        Wrong: 0
-      },
-      result: ''
-    };
+      this.state = {
+        counter: 0,
+        questionId: 1,
+        question: {},
+        answerOptions: [],
+        answer: '',
+        answersCount: {
+          Correct: 0,
+          Wrong: 0
+        },
+        result: '',
+        lastQuestionId: 0
+      };
 
-    this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
-  }
+      this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
+    }
 
-  componentDidMount() {
-    fetch(document._scd['routing']['api:questions'])
-    .then(res => res.json())
-    .then(
-      (result) => {
+    componentDidMount() {
+      fetch(document._scd['routing']['api:questions'])
+        .then(res => res.json())
+          .then(
+            (result) => {
 
-        this.quizQuestions = result;
-        const shuffledAnswerOptions = this.quizQuestions.map((question) => this.shuffleArray(question.choices));
-        this.setState({
-          question: this.quizQuestions[0],
-          answerOptions: shuffledAnswerOptions[0]
-        });
-      },
-      )
-  }
+              this.quizQuestions = result;
+              const shuffledAnswerOptions = this.quizQuestions.map((question) => this.shuffleArray(question.choices));
+              this.setState({
+                question: this.quizQuestions[0],
+                answerOptions: shuffledAnswerOptions[0]
+              });
+            },
+            )
+          }
 
-  shuffleArray(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+          shuffleArray(array) {
+            var currentIndex = array.length, temporaryValue, randomIndex;
 
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
@@ -66,50 +67,62 @@ class App extends Component {
   };
 
   handleAnswerSelected(event) {
-    this.setUserAnswer(event.currentTarget.value);
+    var answer = "";
+
+    if( event == "Wrong" )
+    {
+      answer = event;
+    }
+    else
+    {
+      answer = event.currentTarget.value;
+    }
 
     if (this.state.questionId < this.quizQuestions.length) {
-      setTimeout(() => this.setNextQuestion(), 300);
-    } else {
-      setTimeout(() => this.setResults(this.getResults()), 300);
-    }
+      setTimeout(() => this.setNextQuestion(answer), 300);
+  } else {
+    setTimeout(() => this.setResults(answer), 300);
   }
+}
 
-  setUserAnswer(answer) {
+
+setNextQuestion(answer) {
+  const counter = this.state.counter + 1;
+  const questionId = this.state.questionId + 1;
+  const updatedAnswersCount = update(this.state.answersCount, {
+    [answer]: {$apply: (currentValue) => currentValue + 1}
+  });
+
+  this.setState({
+    counter: counter,
+    questionId: questionId,
+    question: this.quizQuestions[counter],
+    answerOptions: this.quizQuestions[counter].choices,
+    answer: '',
+    answersCount: updatedAnswersCount
+  });
+}
+
+getResults() {
+  const answersCount = this.state.answersCount;
+
+  return answersCount;
+}
+
+setResults(answer) {
     const updatedAnswersCount = update(this.state.answersCount, {
-      [answer]: {$apply: (currentValue) => currentValue + 1}
-    });
+    [answer]: {$apply: (currentValue) => currentValue + 1}
+  });
+  debugger
+  this.setState({
+    correctCnt: updatedAnswersCount["Correct"],
+    wrongCnt: updatedAnswersCount["Wrong"],
+    result: "finish",
+  });
+}
 
-    this.setState({
-      answersCount: updatedAnswersCount,
-      answer: answer
-    });
-  }
-
-  setNextQuestion() {
-    const counter = this.state.counter + 1;
-    const questionId = this.state.questionId + 1;
-
-    this.setState({
-      counter: counter,
-      questionId: questionId,
-      question: this.quizQuestions[counter],
-      answerOptions: this.quizQuestions[counter].choices,
-      answer: ''
-    });
-  }
-
-  getResults() {
-    const answersCount = this.state.answersCount;
-    return answersCount;
-  }
-
-  setResults(result) {
-    this.setState({ result: "finish" });
-    this.setState({ correctCnt: result["Correct"], wrongCnt: result["Wrong"] });
-  }
-
-  renderQuiz() {
+renderQuiz() {
+  if( this.state.answerOptions.length == 0 ) { return; }
     return (
       <Quiz
       answer={this.state.answer}
@@ -127,26 +140,27 @@ class App extends Component {
       if(this.state.correctCnt != null || this.state.wrongCnt != null )
       {
         return (
-        <Result Correct={this.state.correctCnt} Wrong={this.state.wrongCnt} />
-        );
+          <Result Correct={this.state.correctCnt} Wrong={this.state.wrongCnt} />
+          );
       }
     }
 
     render() {
       return (
-      <div className="App">
-      <div className="App-header">
+        <div className="App">
+        <div className="App-header">
 
-      </div>
-      {this.state.result ? this.renderResult() : this.renderQuiz()}
-      </div>
-      );
+        </div>
+        {this.state.result ? this.renderResult() : this.renderQuiz()}
+
+        </div>
+        );
 
 
 
+
+      }
 
     }
 
-  }
-
-  export default App;
+    export default App;

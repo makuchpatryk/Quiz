@@ -46,29 +46,17 @@ function Quiz(props) {
 		counter={props.questionId}
 		total={props.questionTotal}
 		/>
-		<Question text={props.question.question_text} image={props.question.image} hint={props.question.hint} />
+		<Question
+		text={props.question.question_text}
+		image={props.question.image}
+		hint={props.question.hint}
+		onAnswerSelected={props.onAnswerSelected} />
 		<ul className="answerOptions">
 		{props.answerOptions.map(renderAnswerOptions)}
 		</ul>
 		</div>
 
 		</ReactCSSTransitionGroup>
-
-
-
-		);
-
-	return(
-		<div className="quiz">
-		<QuestionCount
-		counter={props.questionId}
-		total={props.questionTotal}
-		/>
-		<Question content={props.question} />
-		<ul className="answerOptions">
-		{props.answerOptions.map(renderAnswerOptions)}
-		</ul>
-		</div>
 		);
 }
 
