@@ -113,7 +113,6 @@ setResults(answer) {
     const updatedAnswersCount = update(this.state.answersCount, {
     [answer]: {$apply: (currentValue) => currentValue + 1}
   });
-  debugger
   this.setState({
     correctCnt: updatedAnswersCount["Correct"],
     wrongCnt: updatedAnswersCount["Wrong"],
