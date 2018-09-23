@@ -32,12 +32,13 @@ class App extends Component {
     }
 
     componentDidMount() {
-      fetch(document._scd['routing']['api:questions'])
+      fetch(document._scd['routing']['api:questions'].replace(0, document._scd['test_id']))
         .then(res => res.json())
           .then(
             (result) => {
 
               this.quizQuestions = result;
+              debugger
               const shuffledAnswerOptions = this.quizQuestions.map((question) => this.shuffleArray(question.choices));
               this.setState({
                 question: this.quizQuestions[0],

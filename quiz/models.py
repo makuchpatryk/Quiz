@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 import os
 
 
@@ -8,6 +9,10 @@ class Test(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('quiz:test')
+
 
     def was_published_recently(self):
         now = timezone.now()
@@ -19,7 +24,7 @@ class Test(models.Model):
 
 
 class Question(models.Model):
-    test = models.ForeignKey(Test, on_delete=models.CASCADE)
+    test = models.ForeignKey('Test', on_delete=models.CASCADE,)
     question_text = models.CharField(max_length=200)
     hint = models.CharField(max_length=200)
     image = models.ImageField(upload_to='uploads/', blank=True, null=True)
@@ -29,7 +34,7 @@ class Question(models.Model):
 
 
 class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question = models.ForeignKey('Question', on_delete=models.CASCADE,)
     choice_text = models.CharField(max_length=200)
     correct = models.BooleanField(default=False)
 

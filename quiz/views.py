@@ -1,32 +1,31 @@
 from django.shortcuts import render
 from django.views import generic
-from .models import Question, Choice
+from .models import Question, Choice, Test
 from .serializers import QuestionSerializer
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 import json
 
 
-class Index(generic.ListView):
+class IndexView(generic.ListView):
     title = "Index"
     template = 'quiz/index.html'
 
     def get(self, request):
-        return render(request, self.template, {})
+        test = Test.objects.all()
+        context = {'test': test}
+        return render(request, self.template, context)
 
 
-class Test(generic.ListView):
+class TestView(generic.ListView):
+
     title = "test"
     template = 'quiz/test.html'
 
-    def get(self, request):
-        questions = Question.objects.all()
-        tmp = QuestionSerializer(
-            questions, many=True
-            )
+    def get(self, request, pk):
 
         context = {
             'question_text': self.title,
-            'props': json.dumps(tmp.data),
+            'test_id': pk,
         }
 
         return render(request, self.template, context)

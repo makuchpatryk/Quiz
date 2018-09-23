@@ -5,6 +5,6 @@ from . import views
 app_name = 'quiz'
 
 urlpatterns = [
-    url(r'^$', views.Index.as_view(), name='index'),
-    url(r'^test/', views.Test.as_view(), name='test')
+    url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^test/(?P<pk>\d+)/', views.TestView.as_view(), name='test')
 ]

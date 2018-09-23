@@ -11,10 +11,9 @@ router = routers.DefaultRouter()
 router.register(r'questions', api_views.QuestionsViewSet, 'questions')
 
 urlpatterns = [
-    url(r'^api/', include(router.urls, namespace='api')),
-    url(r'^$', include('quiz.urls')),
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^quiz/', include('quiz.urls', namespace='quiz')),
-    url(r'^api-auth/', include('rest_framework.urls',
-        namespace='rest_framework'))
+    url(r'^', include('quiz.urls', 'index')),
+    url(r'^admin/', admin.site.urls),
+    url(r'^quiz/', include('quiz.urls')),
+    url(r'^api-auth/', include('rest_framework.urls',)),
+    url(r'^api/', include(router.urls))
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
