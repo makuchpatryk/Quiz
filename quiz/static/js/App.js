@@ -32,7 +32,8 @@ class App extends Component {
     }
 
     componentDidMount() {
-      fetch(document._scd['routing']['api:questions'].replace(0, document._scd['test_id']))
+      var url_to_call = document._scd['routing']['api:questions'].replace(0, document._scd['test_id']);
+      fetch(url_to_call)
         .then(res => res.json())
           .then(
             (result) => {

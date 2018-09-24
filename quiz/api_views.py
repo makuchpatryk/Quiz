@@ -15,5 +15,6 @@ class QuestionsViewSet(viewsets.ModelViewSet):
 
     @action(detail=True)
     def test_questions(self, request, pk=None):
-    	import ipdb; ipdb.set_trace()
-    	return Response([group.name for group in groups])
+    	tmp = self.queryset.filter(test=int(pk))
+    	serializer = self.get_serializer(tmp, many=True)
+    	return Response(serializer.data)
