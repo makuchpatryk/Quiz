@@ -3,5 +3,9 @@
 {% block title %}Index{% endblock %}
 {% block content %}
 <div class="nav"></div>
-
+<div class="category">
+	{% for item in test %}
+    <a href='{% url "quiz:test" pk=item.id %}'>{{ item.title }}</a>
+{% endfor %}
+</div>
 {% endblock %}
